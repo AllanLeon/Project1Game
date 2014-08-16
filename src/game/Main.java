@@ -1,19 +1,20 @@
 package game;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 /**
  * Main window of the game
  * @author Allan Leon
  */
 public class Main extends JFrame {
+	
+	private final int WIDTH = 800;
+	private final int HEIGHT = 480;
 
-	private JPanel contentPane;
+	private BufferedImage doubleBuffer;
 
 	/**
 	 * Launch the application.
@@ -35,12 +36,19 @@ public class Main extends JFrame {
 	 * Create the frame.
 	 */
 	public Main() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+		initialize();
+	}
+	
+	/**
+	 * Initializes and set ups the basic components of the frame.
+	 */
+	private void initialize() {
+		setTitle("Game");
+		setSize(WIDTH, HEIGHT);
+		setResizable(false);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setVisible(true);
+		doubleBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	}
 
 }
