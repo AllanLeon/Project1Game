@@ -1,18 +1,73 @@
 package game.framework;
 
+import game.Main;
+
 import java.awt.Color;
 import java.awt.Graphics;
 
 public class Drawer {
 
-	public void drawCircle(Graphics g, int centerX, int centerY, int radius, Color color) {
+	public static void drawLine(Graphics g, int x0, int y0, int x1, int y1, Color color) {
+		g.setColor(color);
+		
+		int dx, dy, d, x, y, deltaE, deltaNE, stepx = 0, stepy = 0;
+		dx = x1-x0;
+		dy = y1-y0;
+		if (dx<0) {
+			dx = -dx;
+			stepx = -1;
+		} else if (dx>0) { 
+			stepx = 1;
+		} if (dy<0) {
+			dy = -dy;
+			stepy = -1;
+		} else if (dy>0) {
+			stepy = 1;
+		}
+		x = x0;
+		y = y0;
+		putPixel(g, x, y);
+		if (dx > dy) {
+			d = 2*dy - dx;
+			deltaE = 2 * dy;
+			deltaNE = 2 * (dy-dx);
+			while (x != x1) {
+				x += stepx;
+				if (d<0) {
+					d += deltaE;
+				} else {
+					y += stepy;
+					d += deltaNE;
+				}
+				putPixel(g, x, y);
+			}
+		} else {
+			d = 2*dx - dy;
+			deltaE = 2 * dx;
+			deltaNE = 2 * (dx-dy);
+			while (y != y1) {
+				y += stepy;
+				if (d<0) {
+					d += deltaE;
+				} else {
+					x += stepx;
+					d += deltaNE;
+				}
+				putPixel(g, x, y);
+			}
+		}
+	}
+
+	public static void drawCircle(Graphics g, int centerX, int centerY, int radius, Color color) {
+		g.setColor(color);
+		
 		int x, y, d, dE, dSE;
 		x = 0;
 		y = radius;
 		d = 1 - radius;
 		dE = 3;
 		dSE = -2*radius+5;
-		simetry(g, x, y, centerX, centerY, color);
+		simetry(g, x, y, centerX, centerY);
 		while (y > x) {
 			if (d < 0) {
 				d += dE;
@@ -26,23 +81,22 @@ public class Drawer {
 				x += 1;
 				y += -1;
 			}
-			simetry(g, x, y, centerX, centerY, color);
+			simetry(g, x, y, centerX, centerY);
 		}
 	}
 	
-	private void simetry(Graphics g, int x, int y, int centerX, int centerY, Color color) {
-		putPixel(g, x + centerX, y + centerY, color);
-		putPixel(g, y + centerX, x + centerY, color);
-		putPixel(g, y + centerX, -x + centerY, color);
-		putPixel(g, x + centerX, -y + centerY, color);
-		putPixel(g, -x + centerX, -y + centerY, color);
-		putPixel(g, -y + centerX, -x + centerY, color);
-		putPixel(g, -y + centerX, x + centerY, color);
-		putPixel(g, -x + centerX, y + centerY, color);
+	private static void simetry(Graphics g, int x, int y, int centerX, int centerY) {
+		putPixel(g, x + centerX, y + centerY);
+		putPixel(g, y + centerX, x + centerY);
+		putPixel(g, y + centerX, -x + centerY);
+		putPixel(g, x + centerX, -y + centerY);
+		putPixel(g, -x + centerX, -y + centerY);
+		putPixel(g, -y + centerX, -x + centerY);
+		putPixel(g, -y + centerX, x + centerY);
+		putPixel(g, -x + centerX, y + centerY);
 	}
 	
-	private void putPixel(Graphics g, int x, int y, Color color) {
-		g.setColor(color);
-		g.drawLine(x, y, x, y);
+	private static void putPixel(Graphics g, int x, int y) {
+		g.drawLine(x, Main.getWindowHeight() - y, x, Main.getWindowHeight() - y);
 	}
 }

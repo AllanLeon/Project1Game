@@ -2,7 +2,6 @@ package game;
 
 import game.framework.Drawer;
 
-import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -17,8 +16,8 @@ import javax.swing.JFrame;
  */
 public class Main extends JFrame implements KeyListener {
 	
-	private final int WIDTH = 800;
-	private final int HEIGHT = 480;
+	private static final int WIDTH = 800;
+	private static final int HEIGHT = 500;
 
 	private BufferedImage doubleBuffer;
 
@@ -61,11 +60,11 @@ public class Main extends JFrame implements KeyListener {
 	public void start() {
 		
 	}
-	
+
 	public void update() {
 		
 	}
-	
+
 	public void run() {
 		
 	}
@@ -75,7 +74,7 @@ public class Main extends JFrame implements KeyListener {
 	 */
 	@Override
 	public void paint(Graphics g) {
-        g.drawImage(doubleBuffer, 0, 0, this);
+		g.drawImage(doubleBuffer, 0, 0, this);
 	}
 
 	/**
@@ -119,5 +118,13 @@ public class Main extends JFrame implements KeyListener {
 	public void keyTyped(KeyEvent ke) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public static int getWindowWidth() {
+		return WIDTH;
+	}
+	
+	public static int getWindowHeight() {
+		return HEIGHT;
 	}
 }
