@@ -1,5 +1,8 @@
 package game;
 
+import game.framework.Drawer;
+
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -72,7 +75,7 @@ public class Main extends JFrame implements KeyListener {
 	 */
 	@Override
 	public void paint(Graphics g) {
-        g.drawImage(doubleBuffer, 0, 0, this); 
+        g.drawImage(doubleBuffer, 0, 0, this);
 	}
 
 	/**
