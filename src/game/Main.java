@@ -1,7 +1,5 @@
 package game;
 
-import game.framework.Drawer;
-
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
