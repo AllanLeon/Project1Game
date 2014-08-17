@@ -2,7 +2,6 @@ package game;
 
 import java.awt.EventQueue;
 import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -19,7 +18,6 @@ public class Main extends JFrame implements KeyListener {
 	private final int HEIGHT = 480;
 
 	private BufferedImage doubleBuffer;
-	private Insets borders;
 
 	/**
 	 * Launch the application.
@@ -48,16 +46,25 @@ public class Main extends JFrame implements KeyListener {
 	 * Initialize and set up the basic components of the frame.
 	 */
 	private void initialize() {
-		borders = getInsets();
-		
 		setTitle("Game");
-		setSize(borders.left + WIDTH + borders.right,
-				borders.top + HEIGHT + borders.bottom);
+		setSize(WIDTH, HEIGHT);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		
 		doubleBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+	}
+	
+	public void start() {
+		
+	}
+	
+	public void update() {
+		
+	}
+	
+	public void run() {
+		
 	}
 
 	/**
@@ -65,7 +72,7 @@ public class Main extends JFrame implements KeyListener {
 	 */
 	@Override
 	public void paint(Graphics g) {
-        g.drawImage(doubleBuffer, borders.left, borders.top, this); 
+        g.drawImage(doubleBuffer, 0, 0, this); 
 	}
 
 	/**
