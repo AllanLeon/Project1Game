@@ -4,15 +4,16 @@ import java.awt.Rectangle;
 
 public class Ship {
 
-	private int x, y, speedX, speedY, sizeX, sizeY;
+	private int x, y, speedX, speedY, width, height;
 	private Rectangle bounds;
 	
-	public Ship(int x, int y, int sizeX, int sizeY) {
+	public Ship(int x, int y, int width, int height) {
 		this.x = x;
 		this.y = y;
 		this.speedX = 0;
 		this.speedY = 0;
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
+		this.width = width;
+		this.height = height;
+		bounds = new Rectangle(x, y, width, height);
 	}
 }
