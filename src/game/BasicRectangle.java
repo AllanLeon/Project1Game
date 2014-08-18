@@ -4,8 +4,8 @@ import java.awt.Rectangle;
 
 public class BasicRectangle {
 
-	private int x, y, speedX, speedY, width, height;
-	private Rectangle bounds;
+	protected int x, y, speedX, speedY, width, height;
+	protected Rectangle bounds;
 	
 	public BasicRectangle(int x, int y, int width, int height) {
 		this.x = x;
