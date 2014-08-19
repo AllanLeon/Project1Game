@@ -9,14 +9,14 @@ import java.awt.Rectangle;
 public class Block extends BasicRectangle {
 	
 	private int resistance;
-	private boolean isVisible;
+	private boolean visible;
 	private Rectangle rect;
 
 	public Block(int x, int y, int width, int height, int resistance) {
 		super(x, y, width, height);
 		this.rect = new Rectangle(x, y, width, height);
 		this.resistance = resistance;
-		this.isVisible = true;
+		this.visible = true;
 	}
 	
 	@Override
@@ -45,6 +45,10 @@ public class Block extends BasicRectangle {
 	public int getResistance() {
 		return resistance;
 	}
+	
+	public boolean isVisible() {
+		return visible;
+	}
 
 	public void setResistance(int resistance) {
 		this.resistance = resistance;
@@ -54,7 +58,7 @@ public class Block extends BasicRectangle {
 		if (rect.intersects(Main.getBall().getBounds())) {
 			resistance--;
 			if (resistance <= 0) {
-				isVisible = false;
+				visible = false;
 			}
 		}
 	}

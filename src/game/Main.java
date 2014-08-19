@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -26,6 +28,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	private Ship player1, player2;
 	private LevelGenerator level;
 	private boolean isRunning;
+	private static List<Block> blocks;
 
 	/**
 	 * Launch the application.
@@ -64,6 +67,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		setVisible(true);
 		
 		doubleBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+		blocks = new ArrayList<Block>();
 	}
 	
 	public void start() {
@@ -82,6 +86,13 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		ball.update();
 		player1.update();
 		player2.update();
+		for(int i = 0; i < blocks.size(); i++) {
+			if (blocks.get(i).isVisible()) {
+				blocks.get(i).update();
+			} else {
+				blocks.remove(i);
+			}
+		}
 	}
 
 	public void run() {
@@ -107,6 +118,9 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		Graphics dbg = doubleBuffer.getGraphics();
 		dbg.setColor(Color.BLACK);
 		dbg.fillRect(0, 0, WIDTH, HEIGHT);
+		for(int i = 0; i < blocks.size(); i++) {
+			blocks.get(i).draw(dbg);
+		}
 		ball.draw(dbg);
 		player1.draw(dbg);
 		player2.draw(dbg);
@@ -185,6 +199,10 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	
 	public static Ball getBall() {
 		return ball;
+	}
+	
+	public static List<Block> getBlocks() {
+		return blocks;
 	}
 
 	@Override
