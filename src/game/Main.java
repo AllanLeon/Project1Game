@@ -22,7 +22,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	private static final int HEIGHT = 500;
 
 	private BufferedImage doubleBuffer;
-	private Ball ball;
+	private static Ball ball;
 	private Ship player1, player2;
 	private LevelGenerator level;
 	private boolean isRunning;
@@ -116,14 +116,12 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	
 	@Override
 	public void update(Graphics g) {
-		System.out.println("update");
 	}
 
 	
 	@Override
 	public void paint(Graphics g) {
 		g.drawImage(doubleBuffer, 0, 0, this);
-		System.out.println("paint");
 	}
 
 	/**
@@ -183,6 +181,10 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	
 	public static int getWindowHeight() {
 		return HEIGHT;
+	}
+	
+	public static Ball getBall() {
+		return ball;
 	}
 
 	@Override

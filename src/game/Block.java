@@ -4,20 +4,29 @@ import game.framework.Drawer;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 public class Block extends BasicRectangle {
 	
 	private int resistance;
 	private boolean invincible;
+	private Rectangle rect;
 
 	public Block(int x, int y, int width, int height, int resistance) {
 		super(x, y, width, height);
+		this.rect = new Rectangle(x, y, width, height);
 		this.resistance = resistance;
 		if (resistance > 5) {
 			invincible = true;
 		} else {
 			invincible = false;
 		}
+	}
+	
+	@Override
+	public void update() {
+		super.update();
+		rect.setBounds(x, y, width, height);
 	}
 	
 	public void draw(Graphics g) {
