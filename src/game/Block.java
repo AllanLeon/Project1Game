@@ -1,5 +1,10 @@
 package game;
 
+import game.framework.Drawer;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class Block extends BasicRectangle {
 	
 	private int resistance;
@@ -13,6 +18,23 @@ public class Block extends BasicRectangle {
 		} else {
 			invincible = false;
 		}
+	}
+	
+	public void draw(Graphics g) {
+				
+		for (int i=0; i < height; i++) {
+			if (resistance == 1)
+				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(0, 255 - 5*i, 0));
+			if (resistance == 2)
+				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(0, 0, 255 - 5*i));
+			if (resistance == 5)
+				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(255 - 5*i, 0, 0));		
+		}
+		
+		Drawer.drawLine(g, x, y, x + width, y, Color.white);
+		Drawer.drawLine(g, x, y + height, x + width, y + height, Color.white);
+		Drawer.drawLine(g, x, y, x, y + height, Color.white);
+		Drawer.drawLine(g, x + width, y, x + width, y + height, Color.white);
 	}
 	
 	public int getResistance() {

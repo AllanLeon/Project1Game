@@ -24,6 +24,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	private BufferedImage doubleBuffer;
 	private Ball ball;
 	private Ship player1, player2;
+	private LevelGenerator level;
 	private boolean isRunning;
 
 	/**
@@ -69,6 +70,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		ball = new Ball(WIDTH / 2, HEIGHT / 2, 10);
 		player1 = new Ship(10, HEIGHT / 2, 15, 100);
 		player2 = new Ship(WIDTH - 10 - 15, HEIGHT / 2, 15, 100);
+		level = new LevelGenerator();
 		isRunning = true;
 		//run();
 		Timer timer = new Timer(1000/60, this);
@@ -108,6 +110,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		ball.draw(dbg);
 		player1.draw(dbg);
 		player2.draw(dbg);
+		level.draw(dbg,2);
 		getGraphics().drawImage(doubleBuffer, 0, 0, this);
 	}
 	
