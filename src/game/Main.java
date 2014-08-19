@@ -80,7 +80,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		ball = new Ball(60, HEIGHT / 2, 10);
 		player1 = new Ship(10, HEIGHT / 2, 15, 100);
 		player2 = new Ship(WIDTH - 10 - 15, HEIGHT / 2, 15, 100);
-		LevelGenerator.generateLevel(1);
+		LevelGenerator.generateLevel(3);
 		state = GameState.Ready;
 		Timer timer = new Timer(1000/60, this);
 		timer.start();
