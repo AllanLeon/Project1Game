@@ -21,6 +21,11 @@ public class Ship extends BasicRectangle {
 	@Override
 	public void update() {
 		super.update();
+		if (y + height >= Main.getWindowHeight()) {
+			y = Main.getWindowHeight() - height;
+		} else if (y <= 0) {
+			y = 0;
+		}
 		checkCollision();
 	}
 	
