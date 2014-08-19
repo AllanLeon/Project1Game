@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 public class BasicRectangle {
 
 	protected int x, y, speedX, speedY, width, height;
-	protected Rectangle bounds;
+	protected Rectangle rect;
 	
 	public BasicRectangle(int x, int y, int width, int height) {
 		this.x = x;
@@ -14,13 +14,13 @@ public class BasicRectangle {
 		this.speedY = 0;
 		this.width = width;
 		this.height = height;
-		this.bounds = new Rectangle(x, y, width, height);
+		this.rect = new Rectangle(x, y, width, height);
 	}
 	
 	public void update() {
 		x += speedX;
 		y += speedY;
-		bounds.setBounds(x, y, width, height);
+		rect.setBounds(x, y, width, height);
 	}
 
 	public int getX() {
@@ -47,10 +47,6 @@ public class BasicRectangle {
 		return height;
 	}
 
-	public Rectangle getBounds() {
-		return bounds;
-	}
-
 	public void setX(int x) {
 		this.x = x;
 	}
@@ -73,9 +69,5 @@ public class BasicRectangle {
 
 	public void setHeight(int height) {
 		this.height = height;
-	}
-
-	public void setBounds(Rectangle bounds) {
-		this.bounds = bounds;
 	}
 }
