@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -22,10 +25,11 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	private static final int HEIGHT = 500;
 
 	private BufferedImage doubleBuffer;
-	private Ball ball;
+	private static Ball ball;
 	private Ship player1, player2;
-	private LevelGenerator level;
 	private boolean isRunning;
+	private static List<Block> blocks;
+	private static Random random;
 
 	/**
 	 * Launch the application.
@@ -48,6 +52,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	 * Create the frame.
 	 */
 	public Main() {
+		random = new Random();
 		initialize();
 	}
 	
@@ -64,13 +69,14 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		setVisible(true);
 		
 		doubleBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+		blocks = new ArrayList<Block>();
 	}
 	
 	public void start() {
-		ball = new Ball(WIDTH / 2, HEIGHT / 2, 10);
+		ball = new Ball(60, HEIGHT / 2, 10);
 		player1 = new Ship(10, HEIGHT / 2, 15, 100);
 		player2 = new Ship(WIDTH - 10 - 15, HEIGHT / 2, 15, 100);
-		level = new LevelGenerator();
+		LevelGenerator.generateLevel(1);
 		isRunning = true;
 		//run();
 		Timer timer = new Timer(1000/60, this);
@@ -82,11 +88,17 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		ball.update();
 		player1.update();
 		player2.update();
+		for(int i = 0; i < blocks.size(); i++) {
+			if (blocks.get(i).isVisible()) {
+				blocks.get(i).update();
+			} else {
+				blocks.remove(i);
+			}
+		}
 	}
 
 	public void run() {
 		if(isRunning) {
-			long time = System.currentTimeMillis();
             
             update();
             paint();
@@ -107,23 +119,23 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		Graphics dbg = doubleBuffer.getGraphics();
 		dbg.setColor(Color.BLACK);
 		dbg.fillRect(0, 0, WIDTH, HEIGHT);
+		for(int i = 0; i < blocks.size(); i++) {
+			blocks.get(i).draw(dbg);
+		}
 		ball.draw(dbg);
 		player1.draw(dbg);
 		player2.draw(dbg);
-		level.draw(dbg,3);
 		getGraphics().drawImage(doubleBuffer, 0, 0, this);
 	}
 	
 	@Override
 	public void update(Graphics g) {
-		System.out.println("update");
 	}
 
 	
 	@Override
 	public void paint(Graphics g) {
 		g.drawImage(doubleBuffer, 0, 0, this);
-		System.out.println("paint");
 	}
 
 	/**
@@ -183,6 +195,18 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	
 	public static int getWindowHeight() {
 		return HEIGHT;
+	}
+	
+	public static Ball getBall() {
+		return ball;
+	}
+	
+	public static Random getRandom() {
+		return random;
+	}
+	
+	public static List<Block> getBlocks() {
+		return blocks;
 	}
 
 	@Override

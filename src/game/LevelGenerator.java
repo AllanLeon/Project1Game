@@ -1,23 +1,22 @@
 package game;
 
-import java.awt.Graphics;
+import java.util.List;
 
 public class LevelGenerator {
 		
-	int staticWidth = 20;
-	int staticHeight = 50;
+	private static final int BLOCK_WIDTH = 20;
+	private static final int BLOCK_HEIGHT = 50;
 
-	public void draw(Graphics g, int lvl) {
+	public static void generateLevel(int lvl) {
 		int chosenLvl = lvl;
 		switch (chosenLvl) {
 		case 1:
-			lvl1(g);
+			lvl1();
 			break;
 		case 2:
-			lvl2(g);
+			lvl2();
 			break;
 		case 3:
-			lvl3(g);
 			break;
 		}
 	}
@@ -25,121 +24,82 @@ public class LevelGenerator {
 	 * Level: The Envelope
 	 * @param g
 	 */
-	public void lvl1(Graphics g) { 	
+	public static void lvl1() { 	
 		// Horizontal edges
+		List<Block> blocks = Main.getBlocks();
 		for (int i = 190; i < 600; i += 21) {
-			new Block(i, 70, staticWidth, staticHeight, 1).draw(g);
-			new Block(i, 376, staticWidth, staticHeight, 1).draw(g);
+			blocks.add(new Block(i, 70, BLOCK_WIDTH, BLOCK_HEIGHT, 1));
+			blocks.add(new Block(i, 376, BLOCK_WIDTH, BLOCK_HEIGHT, 1));
 		}
 		//vertical edges
 		for (int i = 121; i < 400; i += 51) {
-			new Block(190, i, staticWidth, staticHeight, 1).draw(g);
-			new Block(589, i, staticWidth, staticHeight, 1).draw(g);
+			blocks.add(new Block(190, i, BLOCK_WIDTH, BLOCK_HEIGHT, 1));
+			blocks.add(new Block(589, i, BLOCK_WIDTH, BLOCK_HEIGHT, 1));
 		}
 		
 		//forms envelope's flap
-		new Block(211, 325, staticWidth, staticHeight, 2).draw(g);
-		new Block(232, 325, staticWidth, staticHeight, 2).draw(g);
-		new Block(253, 295, staticWidth, staticHeight, 2).draw(g);
-		new Block(274, 295, staticWidth, staticHeight, 2).draw(g);
-		new Block(295, 255, staticWidth, staticHeight, 2).draw(g);
-		new Block(316, 255, staticWidth, staticHeight, 2).draw(g);
-		new Block(337, 255, staticWidth, staticHeight, 2).draw(g);
-		new Block(358, 215, staticWidth, staticHeight, 2).draw(g);
-		new Block(379, 215, staticWidth, staticHeight, 2).draw(g);
-		new Block(400, 215, staticWidth, staticHeight, 2).draw(g);
-		new Block(421, 215, staticWidth, staticHeight, 2).draw(g);
-		new Block(442, 255, staticWidth, staticHeight, 2).draw(g);
-		new Block(463, 255, staticWidth, staticHeight, 2).draw(g);
-		new Block(484, 255, staticWidth, staticHeight, 2).draw(g);
-		new Block(505, 295, staticWidth, staticHeight, 2).draw(g);
-		new Block(526, 295, staticWidth, staticHeight, 2).draw(g);
-		new Block(547, 325, staticWidth, staticHeight, 2).draw(g);
-		new Block(568, 325, staticWidth, staticHeight, 2).draw(g);
+		blocks.add(new Block(211, 325, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(232, 325, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(253, 295, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(274, 295, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(295, 255, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(316, 255, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(337, 255, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(358, 215, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(379, 215, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(400, 215, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(421, 215, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(442, 255, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(463, 255, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(484, 255, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(505, 295, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(526, 295, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(547, 325, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(568, 325, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
 	}
 	
 	/**
 	 * Level: The Cocktail Glass
 	 * @param g
 	 */
-	public void lvl2(Graphics g) { 	
+	public static void lvl2() {
+		List<Block> blocks = Main.getBlocks();
 		//Rim
 		for (int i = 240; i < 550; i += 21) {
-			new Block(i, 356, staticWidth, staticHeight, 1).draw(g);
+			blocks.add(new Block(i, 356, BLOCK_WIDTH, BLOCK_HEIGHT, 1));
 		}
 		
 		//Foot
 		for (int i = 345; i < 450; i += 21) {
-			new Block(i, 11, staticWidth, staticHeight, 1).draw(g);
+			blocks.add(new Block(i, 11, BLOCK_WIDTH, BLOCK_HEIGHT, 1));
 		}
 		
 		//Stem
 		for (int i = 62; i < 200; i += 51) {
-			new Block(387, i, staticWidth, staticHeight, 1).draw(g);
+			blocks.add(new Block(387, i, BLOCK_WIDTH, BLOCK_HEIGHT, 1));
 		}
 
 		//Bowl
-		new Block(240, 305, staticWidth, staticHeight, 2).draw(g);
-		new Block(261, 305, staticWidth, staticHeight, 2).draw(g);
-		new Block(282, 285, staticWidth, staticHeight, 2).draw(g);
-		new Block(303, 275, staticWidth, staticHeight, 2).draw(g);
-		new Block(324, 255, staticWidth, staticHeight, 2).draw(g);
-		new Block(345, 235, staticWidth, staticHeight, 2).draw(g);
-		new Block(366, 215, staticWidth, staticHeight, 2).draw(g);
-		new Block(387, 215, staticWidth, staticHeight, 2).draw(g);
-		new Block(408, 215, staticWidth, staticHeight, 2).draw(g);
-		new Block(429, 235, staticWidth, staticHeight, 2).draw(g);
-		new Block(450, 255, staticWidth, staticHeight, 2).draw(g);
-		new Block(471, 275, staticWidth, staticHeight, 2).draw(g);
-		new Block(492, 285, staticWidth, staticHeight, 2).draw(g);
-		new Block(513, 305, staticWidth, staticHeight, 2).draw(g);
-		new Block(534, 305, staticWidth, staticHeight, 2).draw(g);
+		blocks.add(new Block(240, 305, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(261, 305, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(282, 285, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(303, 275, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(324, 255, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(345, 235, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(366, 215, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(387, 215, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(408, 215, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(429, 235, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(450, 255, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(471, 275, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(492, 285, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(513, 305, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+		blocks.add(new Block(534, 305, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
 
-		//Straw
-		new Block(424, 305, staticWidth, staticHeight, 5).draw(g);
-		new Block(440, 407, staticWidth, staticHeight, 5).draw(g);
-	}
-	
-	/**
-	 * Level: The Wi-Fi Signal
-	 * @param g
-	 */
-	public void lvl3(Graphics g) { 	
-		int sum = 0;
-
-		//First signal
-		for (int i = 0; i < 350; i += 21) {
-			int j = 19 - Math.round(i/8);
-			new Block(220 + i, 280 + sum, staticWidth, staticHeight, 1).draw(g);
-			sum += j;
-		}
-		
-		//Second signal
-		for (int i = 0; i < 260; i += 21) {
-			int j = 19 - Math.round(i/6);
-			new Block(260 + i, 230 + sum, staticWidth, staticHeight, 2).draw(g);
-			sum += j;
-		}
-		
-		//Third signal
-		for (int i = 0; i < 150; i += 21) {
-			int j = (int) (19 - Math.round(i/3.3));
-			new Block(312 + i, 180 + sum, staticWidth, staticHeight, 2).draw(g);
-			sum += j;
-		}
-		
-		new Block(364, 60, staticWidth, staticHeight, 5).draw(g);
-		new Block(385, 60, staticWidth, staticHeight, 5).draw(g);
-		new Block(406, 60, staticWidth, staticHeight, 5).draw(g);
 	}
 	
 	/**
 	 * Level: The Randomness
 	 * @param g
 	 */
-	public void lvl4(Graphics g) {
-		for (int i = 0; i < 350; i += 21) {
-			new Block(220 + i, 280 + i, staticWidth, staticHeight, 1).draw(g);
-		}
-	}
 }
