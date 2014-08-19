@@ -5,6 +5,7 @@ import game.framework.Drawer;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 
 public class Ball {
@@ -15,8 +16,8 @@ public class Ball {
 	public Ball(int centerX, int centerY, int radius) {
 		this.centerX = centerX;
 		this.centerY = centerY;
-		this.speedX = 5;
-		this.speedY = 0;
+		this.speedX = 8;
+		this.speedY = 1;
 		this.radius = radius;
 		this.circle = new Ellipse2D.Double(centerX - radius, centerY + radius, radius * 2, radius * 2);
 	}
@@ -83,5 +84,9 @@ public class Ball {
 
 	public void setRadius(int radius) {
 		this.radius = radius;
+	}
+	
+	public Rectangle2D getBounds() {
+		return circle.getBounds2D();
 	}
 }

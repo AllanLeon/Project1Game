@@ -9,18 +9,14 @@ import java.awt.Rectangle;
 public class Block extends BasicRectangle {
 	
 	private int resistance;
-	private boolean invincible;
+	private boolean isVisible;
 	private Rectangle rect;
 
 	public Block(int x, int y, int width, int height, int resistance) {
 		super(x, y, width, height);
 		this.rect = new Rectangle(x, y, width, height);
 		this.resistance = resistance;
-		if (resistance > 5) {
-			invincible = true;
-		} else {
-			invincible = false;
-		}
+		this.isVisible = true;
 	}
 	
 	@Override
@@ -50,15 +46,16 @@ public class Block extends BasicRectangle {
 		return resistance;
 	}
 
-	public boolean isInvincible() {
-		return invincible;
-	}
-
 	public void setResistance(int resistance) {
 		this.resistance = resistance;
 	}
-
-	public void setInvincible(boolean invincible) {
-		this.invincible = invincible;
+	
+	public void checkCollision() {
+		if (rect.intersects(Main.getBall().getBounds())) {
+			resistance--;
+			if (resistance <= 0) {
+				isVisible = false;
+			}
+		}
 	}
 }
