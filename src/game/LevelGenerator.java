@@ -132,8 +132,11 @@ public class LevelGenerator {
 			sum += j;
 		}
 		
-		blocks.add(new Block(364, 60, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
+		/*blocks.add(new Block(364, 60, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
 		blocks.add(new Block(385, 60, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
-		blocks.add(new Block(406, 60, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
+		blocks.add(new Block(406, 60, BLOCK_WIDTH, BLOCK_HEIGHT, 5));*/
+		blocks.add(new IndestructibleBlock(364, 60, BLOCK_WIDTH, BLOCK_HEIGHT));
+		blocks.add(new IndestructibleBlock(385, 60, BLOCK_WIDTH, BLOCK_HEIGHT));
+		blocks.add(new IndestructibleBlock(406, 60, BLOCK_WIDTH, BLOCK_HEIGHT));
 	}
 }

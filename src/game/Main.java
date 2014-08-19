@@ -158,7 +158,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		} else if (state == GameState.P2Win) {
 			ball.setCenterX(player2.getX() - ball.getRadius());
 		}
-		LevelGenerator.generateLevel(2);
+		LevelGenerator.generateLevel(3);
 	}
 
 	/**

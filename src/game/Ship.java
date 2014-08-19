@@ -17,7 +17,7 @@ public class Ship extends BasicRectangle {
 	
 	public void draw(Graphics g) {
 		for(int i = 0; i < height; i++) {
-			Drawer.drawLine(g, x, y + i, x + width, y + i, Color.CYAN);
+			Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(Main.getRandom().nextInt(255), Main.getRandom().nextInt(255),Main.getRandom().nextInt(255)));
 		}
 	}
 	

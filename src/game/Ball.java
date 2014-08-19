@@ -42,9 +42,10 @@ public class Ball {
 	}
 	
 	public void draw(Graphics g) {
-		for(int i = 1; i <= radius; i++) {
-			Drawer.drawCircle(g, centerX, centerY, i, new Color(255, 255, 255, 255 - (radius - i)*20));
+		for(int i = 1; i < radius; i++) {
+			Drawer.drawCircle(g, centerX, centerY, i, new Color(255 - i*20, 255 - i*20, 255 - i*20));
 		}
+		Drawer.drawCircle(g, centerX, centerY, radius, Color.WHITE);
 	}
 
 	public int getCenterX() {
