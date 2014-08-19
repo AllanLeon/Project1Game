@@ -8,8 +8,11 @@ import java.awt.Graphics;
 
 public class Ship extends BasicRectangle {
 	
+	private int score;
+	
 	public Ship(int x, int y, int width, int height) {
 		super(x, y, width, height);
+		this.score = 0;
 	}
 	
 	public void draw(Graphics g) {
@@ -39,5 +42,13 @@ public class Ship extends BasicRectangle {
 				ball.setSpeedY(newSpeedY);
 			}
 		}
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void increaseScore() {
+		score++;
 	}
 }

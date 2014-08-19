@@ -30,7 +30,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 
 	private BufferedImage doubleBuffer;
 	private static Ball ball;
-	private Ship player1, player2;
+	private static Ship player1, player2;
 	private static GameState state;
 	private static List<Block> blocks;
 	private static Random random;
@@ -102,60 +102,37 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 
 	public void run() {
 		if(state == GameState.Running) {
-			//long time = System.currentTimeMillis();
-            
             update();
-            paint();
-            /*time = (1000 / 30) - (System.currentTimeMillis() - time);
-           
-            if (time > 0)
-            {
-                    try
-                    {
-                            Thread.sleep(time);
-                    }
-                    catch(Exception e){}
-            }*/
 		} else if (state == GameState.Ready) {
-			paintReady();
 		} else {
-			paintWin();
+			reset();
 		}
+		paint();
 	}
 	
 	private void paint() {
 		Graphics dbg = doubleBuffer.getGraphics();
 		dbg.setColor(Color.BLACK);
 		dbg.fillRect(0, 0, WIDTH, HEIGHT);
-		for(int i = 0; i < blocks.size(); i++) {
-			blocks.get(i).draw(dbg);
-		}
-		ball.draw(dbg);
-		player1.draw(dbg);
-		player2.draw(dbg);
-		getGraphics().drawImage(doubleBuffer, 0, 0, this);
-	}
-	
-	private void paintReady() {
-		Graphics dbg = doubleBuffer.getGraphics();
-		dbg.setColor(Color.BLACK);
-		dbg.fillRect(0, 0, WIDTH, HEIGHT);
-		dbg.setColor(Color.WHITE);
-		dbg.drawString("Press ENTER to play", WIDTH / 2 - 50, HEIGHT / 2);
-		getGraphics().drawImage(doubleBuffer, 0, 0, this);
-	}
-	
-	private void paintWin() {
-		Graphics dbg = doubleBuffer.getGraphics();
-		dbg.setColor(Color.BLACK);
-		dbg.fillRect(0, 0, WIDTH, HEIGHT);
-		dbg.setColor(Color.WHITE);
-		if (state == GameState.P1Win) {
+		if (state == GameState.Running) {
+			for(int i = 0; i < blocks.size(); i++) {
+				blocks.get(i).draw(dbg);
+			}
+			ball.draw(dbg);
+			player1.draw(dbg);
+			player2.draw(dbg);
+		} else if (state == GameState.Ready) {
+			dbg.setColor(Color.WHITE);
+			dbg.drawString("Press ENTER to play", WIDTH / 2 - 50, HEIGHT / 2);
+		} else if (state == GameState.P1Win) {
+			dbg.setColor(Color.WHITE);
 			dbg.drawString("Player 1 WON!", WIDTH / 2 - 50, HEIGHT / 2);
-		}
-		if (state == GameState.P2Win) {
+		} else if (state == GameState.P2Win) {
+			dbg.setColor(Color.WHITE);
 			dbg.drawString("Player 2 WON!", WIDTH / 2 - 50, HEIGHT / 2);
 		}
+		dbg.setColor(Color.WHITE);
+		dbg.drawString(player1.getScore() + " : " + player2.getScore(), WIDTH / 2 - 50, HEIGHT / 8);
 		getGraphics().drawImage(doubleBuffer, 0, 0, this);
 	}
 	
@@ -167,6 +144,22 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	@Override
 	public void paint(Graphics g) {
 		g.drawImage(doubleBuffer, 0, 0, this);
+	}
+	
+	public void reset() {
+		doubleBuffer.getGraphics().clearRect(0, 0, WIDTH, HEIGHT);
+		player1.setY(HEIGHT / 2 - player1.getHeight() / 2);
+		player2.setY(HEIGHT / 2 - player2.getHeight() / 2);
+		blocks.clear();
+		ball.setSpeedX(0);
+		ball.setSpeedY(0);
+		ball.setCenterY(HEIGHT / 2);
+		if (state == GameState.P1Win) {
+			ball.setCenterX(player1.getX() + player1.getWidth() + ball.getRadius());
+		} else if (state == GameState.P2Win) {
+			ball.setCenterX(player2.getX() - ball.getRadius());
+		}
+		LevelGenerator.generateLevel(2);
 	}
 
 	/**
@@ -249,6 +242,14 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	
 	public static void setState(GameState state) {
 		Main.state = state;
+	}
+	
+	public static Ship getPlayer1() {
+		return player1;
+	}
+	
+	public static Ship getPlayer2() {
+		return player2;
 	}
 
 	@Override

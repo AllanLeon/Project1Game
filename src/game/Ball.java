@@ -34,8 +34,10 @@ public class Ball {
 		}
 		if (centerX + radius >= Main.getWindowWidth()) {
 			Main.setState(GameState.P1Win);
+			Main.getPlayer1().increaseScore();
 		} else if (centerX - radius <= 0) {
 			Main.setState(GameState.P2Win);
+			Main.getPlayer2().increaseScore();
 		}
 	}
 	
