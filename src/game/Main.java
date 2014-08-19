@@ -110,7 +110,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		ball.draw(dbg);
 		player1.draw(dbg);
 		player2.draw(dbg);
-		level.draw(dbg,2);
+		level.draw(dbg,3);
 		getGraphics().drawImage(doubleBuffer, 0, 0, this);
 	}
 	

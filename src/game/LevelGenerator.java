@@ -16,6 +16,9 @@ public class LevelGenerator {
 		case 2:
 			lvl2(g);
 			break;
+		case 3:
+			lvl3(g);
+			break;
 		}
 	}
 	/**
@@ -95,5 +98,48 @@ public class LevelGenerator {
 		//Straw
 		new Block(424, 305, staticWidth, staticHeight, 5).draw(g);
 		new Block(440, 407, staticWidth, staticHeight, 5).draw(g);
+	}
+	
+	/**
+	 * Level: The Wi-Fi Signal
+	 * @param g
+	 */
+	public void lvl3(Graphics g) { 	
+		int sum = 0;
+
+		//First signal
+		for (int i = 0; i < 350; i += 21) {
+			int j = 19 - Math.round(i/8);
+			new Block(220 + i, 280 + sum, staticWidth, staticHeight, 1).draw(g);
+			sum += j;
+		}
+		
+		//Second signal
+		for (int i = 0; i < 260; i += 21) {
+			int j = 19 - Math.round(i/6);
+			new Block(260 + i, 230 + sum, staticWidth, staticHeight, 2).draw(g);
+			sum += j;
+		}
+		
+		//Third signal
+		for (int i = 0; i < 150; i += 21) {
+			int j = (int) (19 - Math.round(i/3.3));
+			new Block(312 + i, 180 + sum, staticWidth, staticHeight, 2).draw(g);
+			sum += j;
+		}
+		
+		new Block(364, 60, staticWidth, staticHeight, 5).draw(g);
+		new Block(385, 60, staticWidth, staticHeight, 5).draw(g);
+		new Block(406, 60, staticWidth, staticHeight, 5).draw(g);
+	}
+	
+	/**
+	 * Level: The Randomness
+	 * @param g
+	 */
+	public void lvl4(Graphics g) {
+		for (int i = 0; i < 350; i += 21) {
+			new Block(220 + i, 280 + i, staticWidth, staticHeight, 1).draw(g);
+		}
 	}
 }
