@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -26,9 +27,9 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	private BufferedImage doubleBuffer;
 	private static Ball ball;
 	private Ship player1, player2;
-	private LevelGenerator level;
 	private boolean isRunning;
 	private static List<Block> blocks;
+	private static Random random;
 
 	/**
 	 * Launch the application.
@@ -51,6 +52,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	 * Create the frame.
 	 */
 	public Main() {
+		random = new Random();
 		initialize();
 	}
 	
@@ -74,7 +76,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		ball = new Ball(60, HEIGHT / 2, 10);
 		player1 = new Ship(10, HEIGHT / 2, 15, 100);
 		player2 = new Ship(WIDTH - 10 - 15, HEIGHT / 2, 15, 100);
-		level = new LevelGenerator();
+		LevelGenerator.generateLevel(1);
 		isRunning = true;
 		//run();
 		Timer timer = new Timer(1000/60, this);
@@ -124,7 +126,6 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		ball.draw(dbg);
 		player1.draw(dbg);
 		player2.draw(dbg);
-		level.draw(dbg,2);
 		getGraphics().drawImage(doubleBuffer, 0, 0, this);
 	}
 	
@@ -199,6 +200,10 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	
 	public static Ball getBall() {
 		return ball;
+	}
+	
+	public static Random getRandom() {
+		return random;
 	}
 	
 	public static List<Block> getBlocks() {

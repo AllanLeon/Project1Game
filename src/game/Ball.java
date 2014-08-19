@@ -75,11 +75,20 @@ public class Ball {
 	}
 
 	public void setSpeedX(int speedX) {
+		if (speedX == 0) {
+			speedX = 1;
+		}
 		this.speedX = speedX;
+		if (this.speedX < 5 && this.speedX > -5) {
+			this.speedX = this.speedX / Math.abs(this.speedX) * 5;
+		}
 	}
 
 	public void setSpeedY(int speedY) {
 		this.speedY = speedY;
+		/*if (this.speedY < 5 && this.speedY > -5) {
+			this.speedY = this.speedY / Math.abs(this.speedY) * 5;
+		}*/
 	}
 
 	public void setRadius(int radius) {

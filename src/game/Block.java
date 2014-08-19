@@ -4,17 +4,14 @@ import game.framework.Drawer;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
 public class Block extends BasicRectangle {
 	
 	private int resistance;
 	private boolean visible;
-	private Rectangle rect;
 
 	public Block(int x, int y, int width, int height, int resistance) {
 		super(x, y, width, height);
-		this.rect = new Rectangle(x, y, width, height);
 		this.resistance = resistance;
 		this.visible = true;
 	}
@@ -22,7 +19,7 @@ public class Block extends BasicRectangle {
 	@Override
 	public void update() {
 		super.update();
-		rect.setBounds(x, y, width, height);
+		checkCollision();
 	}
 	
 	public void draw(Graphics g) {
@@ -55,7 +52,21 @@ public class Block extends BasicRectangle {
 	}
 	
 	public void checkCollision() {
-		if (rect.intersects(Main.getBall().getBounds())) {
+		Ball ball = Main.getBall();
+		int rSpeed = Main.getRandom().nextInt(6) - 3;
+		if (rect.intersects(ball.getBounds())) {
+			if ((ball.getSpeedX() > 0 && ball.getCenterX() <= x) ||
+					(ball.getSpeedX() < 0 && ball.getCenterX() >= x + width)) {
+				ball.setSpeedX(ball.getSpeedX() * -1 + rSpeed);
+				ball.setSpeedY(ball.getSpeedY() + rSpeed);
+				
+			}
+			if ((ball.getSpeedY() > 0 && ball.getCenterY() <= y) ||
+					(ball.getSpeedY() < 0 && ball.getCenterY() >= y + height)) {
+				ball.setSpeedX(ball.getSpeedY() * -1 + rSpeed);
+				ball.setSpeedX(ball.getSpeedX() + rSpeed);
+			} 
+			
 			resistance--;
 			if (resistance <= 0) {
 				visible = false;
