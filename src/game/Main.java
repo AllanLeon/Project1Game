@@ -21,13 +21,17 @@ import javax.swing.Timer;
  */
 public class Main extends JFrame implements KeyListener, ActionListener {
 	
+	enum GameState {
+		Ready, Running, P1Win, P2Win
+	}
+	
 	private static final int WIDTH = 800;
 	private static final int HEIGHT = 500;
 
 	private BufferedImage doubleBuffer;
 	private static Ball ball;
 	private Ship player1, player2;
-	private boolean isRunning;
+	private static GameState state;
 	private static List<Block> blocks;
 	private static Random random;
 
@@ -77,8 +81,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		player1 = new Ship(10, HEIGHT / 2, 15, 100);
 		player2 = new Ship(WIDTH - 10 - 15, HEIGHT / 2, 15, 100);
 		LevelGenerator.generateLevel(1);
-		isRunning = true;
-		//run();
+		state = GameState.Ready;
 		Timer timer = new Timer(1000/60, this);
 		timer.start();
 		
@@ -98,8 +101,8 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	}
 
 	public void run() {
-		if(isRunning) {
-			long time = System.currentTimeMillis();
+		if(state == GameState.Running) {
+			//long time = System.currentTimeMillis();
             
             update();
             paint();
@@ -113,6 +116,10 @@ public class Main extends JFrame implements KeyListener, ActionListener {
                     }
                     catch(Exception e){}
             }*/
+		} else if (state == GameState.Ready) {
+			paintReady();
+		} else {
+			paintWin();
 		}
 	}
 	
@@ -126,6 +133,29 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		ball.draw(dbg);
 		player1.draw(dbg);
 		player2.draw(dbg);
+		getGraphics().drawImage(doubleBuffer, 0, 0, this);
+	}
+	
+	private void paintReady() {
+		Graphics dbg = doubleBuffer.getGraphics();
+		dbg.setColor(Color.BLACK);
+		dbg.fillRect(0, 0, WIDTH, HEIGHT);
+		dbg.setColor(Color.WHITE);
+		dbg.drawString("Press ENTER to play", WIDTH / 2 - 50, HEIGHT / 2);
+		getGraphics().drawImage(doubleBuffer, 0, 0, this);
+	}
+	
+	private void paintWin() {
+		Graphics dbg = doubleBuffer.getGraphics();
+		dbg.setColor(Color.BLACK);
+		dbg.fillRect(0, 0, WIDTH, HEIGHT);
+		dbg.setColor(Color.WHITE);
+		if (state == GameState.P1Win) {
+			dbg.drawString("Player 1 WON!", WIDTH / 2 - 50, HEIGHT / 2);
+		}
+		if (state == GameState.P2Win) {
+			dbg.drawString("Player 2 WON!", WIDTH / 2 - 50, HEIGHT / 2);
+		}
 		getGraphics().drawImage(doubleBuffer, 0, 0, this);
 	}
 	
@@ -156,6 +186,13 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 			break;
 		case KeyEvent.VK_S:
 			player1.setSpeedY(-8);
+			break;
+		case KeyEvent.VK_ENTER:
+			if (state == GameState.Ready) {
+				state = GameState.Running;
+			} else if (state != GameState.Running) {
+				state = GameState.Ready;
+			}
 			break;
 		}
 	}
@@ -208,6 +245,10 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	
 	public static List<Block> getBlocks() {
 		return blocks;
+	}
+	
+	public static void setState(GameState state) {
+		Main.state = state;
 	}
 
 	@Override
