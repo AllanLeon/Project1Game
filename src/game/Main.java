@@ -151,7 +151,6 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		player1.setY(HEIGHT / 2 - player1.getHeight() / 2);
 		player2.setY(HEIGHT / 2 - player2.getHeight() / 2);
 		blocks.clear();
-		ball.setSpeedX(0);
 		ball.setSpeedY(0);
 		ball.setCenterY(HEIGHT / 2);
 		if (state == GameState.P1Win) {
