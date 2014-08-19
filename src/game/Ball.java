@@ -13,13 +13,21 @@ public class Ball {
 		this.centerX = centerX;
 		this.centerY = centerY;
 		this.speedX = 20;
-		this.speedY = -2;
+		this.speedY = 10;
 		this.radius = radius;
 	}
 	
 	public void update() {
 		centerX += speedX;
 		centerY += speedY;
+		
+		if (centerY + radius >= Main.getWindowHeight() || centerY - radius <= 0) {
+			speedY *= -1;
+			centerY += speedY;
+		} if (centerX + radius >= Main.getWindowWidth() || centerX - radius <= 0) {
+			speedX *= -1;
+			centerX += speedX;
+		}
 	}
 	
 	public void draw(Graphics g) {
