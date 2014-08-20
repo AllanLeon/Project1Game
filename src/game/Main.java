@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +35,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	private static final int HEIGHT = 500;
 
 	private BufferedImage doubleBuffer;
+	private int totalScore;
 	private static Ball ball;
 	private static Ship player1, player2;
 	private static GameState state;
@@ -85,11 +87,10 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		ball = new Ball(60, HEIGHT / 2, 10);
 		player1 = new Ship(10, HEIGHT / 2, 15, 100);
 		player2 = new Ship(WIDTH - 10 - 15, HEIGHT / 2, 15, 100);
-		LevelGenerator.generateLevel(4);
+		LevelGenerator.generateLevel(1);
 		state = GameState.Ready;
 		Timer timer = new Timer(1000/60, this);
 		timer.start();
-		
 	}	
 
 	public void update() {
@@ -100,6 +101,8 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 			if (blocks.get(i).isVisible()) {
 				blocks.get(i).update();
 			} else {
+				int blockDestroyed = blocks.get(i).getValue();
+				this.totalScore += blockDestroyed;
 				blocks.remove(i);
 			}
 		}
@@ -128,7 +131,8 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 			player2.draw(dbg);
 		} else if (state == GameState.Ready) {
 			dbg.setColor(Color.WHITE);
-			dbg.drawString("Press ENTER to play", WIDTH / 2 - 50, HEIGHT / 2);
+			dbg.setFont(new Font("EcuyerDAX", Font.BOLD, 24));
+			dbg.drawString("Press ENTER to play", WIDTH / 2 - 180, HEIGHT / 2);
 		} else if (state == GameState.P1Win) {
 			dbg.setColor(Color.WHITE);
 			dbg.drawString("Player 1 WON!", WIDTH / 2 - 50, HEIGHT / 2);
@@ -136,12 +140,24 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 			dbg.setColor(Color.WHITE);
 			dbg.drawString("Player 2 WON!", WIDTH / 2 - 50, HEIGHT / 2);
 		}
-		dbg.setColor(Color.WHITE);
+		dbg.setFont(new Font("EcuyerDAX", Font.BOLD, 24));
+		dbg.setColor(new Color(255, 128, 0));
 		dbg.drawString(player1.getScore() + " : " + player2.getScore(), WIDTH / 2 - 50, HEIGHT / 8);
-		dbg.drawString("Puntaje: " + player2.getScore(), WIDTH / 2 - 50, HEIGHT / 8);
+		dbg.setColor(new Color(0, 153, 76));
+		checkScore(totalScore, dbg);
+		dbg.drawString("Puntaje: " + totalScore, WIDTH - 250, HEIGHT / 8);
 		getGraphics().drawImage(doubleBuffer, 0, 0, this);
 	}
 	
+	private void checkScore(int sc, Graphics g) {
+		if  (sc >= 2000 & sc < 5000) {
+			g.setColor(new Color(255, 255, 51));
+		}
+		if  (sc >= 5000) {
+			g.setColor(new Color(51, 255, 51));
+		}
+	}
+
 	@Override
 	public void update(Graphics g) {
 	}
@@ -164,7 +180,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		} else if (state == GameState.P2Win) {
 			ball.setCenterX(player2.getX() - ball.getRadius());
 		}
-		LevelGenerator.generateLevel(2);
+		LevelGenerator.generateLevel(1);
 	}
 
 	/**
@@ -216,13 +232,8 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		}
 	}
 
-	/**q
-	 * {@inheritDoc}
-	 */
 	@Override
-	public void keyTyped(KeyEvent ke) {
-		// TODO Auto-generated method stub
-		
+	public void keyTyped(KeyEvent ke) {	
 	}
 	
 	public static int getWindowWidth() {
