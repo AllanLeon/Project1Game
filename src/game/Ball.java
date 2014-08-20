@@ -1,5 +1,6 @@
 package game;
 
+import game.Main.GameState;
 import game.framework.Drawer;
 
 import java.awt.Color;
@@ -30,10 +31,14 @@ public class Ball {
 		if (centerY + radius >= Main.getWindowHeight() || centerY - radius <= 0) {
 			speedY *= -1;
 			centerY += speedY;
-		}/* if (centerX + radius >= Main.getWindowWidth() || centerX - radius <= 0) {
-			speedX *= -1;
-			centerX += speedX;
-		}*/
+		}
+		if (centerX + radius >= Main.getWindowWidth()) {
+			Main.setState(GameState.P1Win);
+			Main.getPlayer1().increaseScore();
+		} else if (centerX - radius <= 0) {
+			Main.setState(GameState.P2Win);
+			Main.getPlayer2().increaseScore();
+		}
 	}
 	
 	public void draw(Graphics g) {

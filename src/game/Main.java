@@ -21,13 +21,22 @@ import javax.swing.Timer;
  */
 public class Main extends JFrame implements KeyListener, ActionListener {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	enum GameState {
+		Ready, Running, P1Win, P2Win
+	}
+	
 	private static final int WIDTH = 800;
 	private static final int HEIGHT = 500;
 
 	private BufferedImage doubleBuffer;
 	private static Ball ball;
-	private Ship player1, player2;
-	private boolean isRunning;
+	private static Ship player1, player2;
+	private static GameState state;
 	private static List<Block> blocks;
 	private static Random random;
 
@@ -76,9 +85,8 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		ball = new Ball(60, HEIGHT / 2, 10);
 		player1 = new Ship(10, HEIGHT / 2, 15, 100);
 		player2 = new Ship(WIDTH - 10 - 15, HEIGHT / 2, 15, 100);
-		LevelGenerator.generateLevel(1);
-		isRunning = true;
-		//run();
+		LevelGenerator.generateLevel(4);
+		state = GameState.Ready;
 		Timer timer = new Timer(1000/60, this);
 		timer.start();
 		
@@ -98,33 +106,39 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	}
 
 	public void run() {
-		if(isRunning) {
-            
+		if(state == GameState.Running) {
             update();
-            paint();
-            /*time = (1000 / 30) - (System.currentTimeMillis() - time);
-           
-            if (time > 0)
-            {
-                    try
-                    {
-                            Thread.sleep(time);
-                    }
-                    catch(Exception e){}
-            }*/
+		} else if (state == GameState.Ready) {
+		} else {
+			reset();
 		}
+		paint();
 	}
 	
 	private void paint() {
 		Graphics dbg = doubleBuffer.getGraphics();
 		dbg.setColor(Color.BLACK);
 		dbg.fillRect(0, 0, WIDTH, HEIGHT);
-		for(int i = 0; i < blocks.size(); i++) {
-			blocks.get(i).draw(dbg);
+		if (state == GameState.Running) {
+			for(int i = 0; i < blocks.size(); i++) {
+				blocks.get(i).draw(dbg);
+			}
+			ball.draw(dbg);
+			player1.draw(dbg);
+			player2.draw(dbg);
+		} else if (state == GameState.Ready) {
+			dbg.setColor(Color.WHITE);
+			dbg.drawString("Press ENTER to play", WIDTH / 2 - 50, HEIGHT / 2);
+		} else if (state == GameState.P1Win) {
+			dbg.setColor(Color.WHITE);
+			dbg.drawString("Player 1 WON!", WIDTH / 2 - 50, HEIGHT / 2);
+		} else if (state == GameState.P2Win) {
+			dbg.setColor(Color.WHITE);
+			dbg.drawString("Player 2 WON!", WIDTH / 2 - 50, HEIGHT / 2);
 		}
-		ball.draw(dbg);
-		player1.draw(dbg);
-		player2.draw(dbg);
+		dbg.setColor(Color.WHITE);
+		dbg.drawString(player1.getScore() + " : " + player2.getScore(), WIDTH / 2 - 50, HEIGHT / 8);
+		dbg.drawString("Puntaje: " + player2.getScore(), WIDTH / 2 - 50, HEIGHT / 8);
 		getGraphics().drawImage(doubleBuffer, 0, 0, this);
 	}
 	
@@ -136,6 +150,21 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	@Override
 	public void paint(Graphics g) {
 		g.drawImage(doubleBuffer, 0, 0, this);
+	}
+	
+	public void reset() {
+		doubleBuffer.getGraphics().clearRect(0, 0, WIDTH, HEIGHT);
+		player1.setY(HEIGHT / 2 - player1.getHeight() / 2);
+		player2.setY(HEIGHT / 2 - player2.getHeight() / 2);
+		blocks.clear();
+		ball.setSpeedY(0);
+		ball.setCenterY(HEIGHT / 2);
+		if (state == GameState.P1Win) {
+			ball.setCenterX(player1.getX() + player1.getWidth() + ball.getRadius());
+		} else if (state == GameState.P2Win) {
+			ball.setCenterX(player2.getX() - ball.getRadius());
+		}
+		LevelGenerator.generateLevel(2);
 	}
 
 	/**
@@ -155,6 +184,13 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 			break;
 		case KeyEvent.VK_S:
 			player1.setSpeedY(-8);
+			break;
+		case KeyEvent.VK_ENTER:
+			if (state == GameState.Ready) {
+				state = GameState.Running;
+			} else if (state != GameState.Running) {
+				state = GameState.Ready;
+			}
 			break;
 		}
 	}
@@ -207,6 +243,18 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	
 	public static List<Block> getBlocks() {
 		return blocks;
+	}
+	
+	public static void setState(GameState state) {
+		Main.state = state;
+	}
+	
+	public static Ship getPlayer1() {
+		return player1;
+	}
+	
+	public static Ship getPlayer2() {
+		return player2;
 	}
 
 	@Override

@@ -9,10 +9,12 @@ public class Block extends BasicRectangle {
 	
 	private int resistance;
 	private boolean visible;
+	private int value;
 
 	public Block(int x, int y, int width, int height, int resistance) {
 		super(x, y, width, height);
 		this.resistance = resistance;
+		this.value = resistance * 50;
 		this.visible = true;
 	}
 	
@@ -25,12 +27,23 @@ public class Block extends BasicRectangle {
 	public void draw(Graphics g) {
 				
 		for (int i=0; i < height; i++) {
-			if (resistance == 1)
+			switch (resistance) {
+			case 1:
 				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(0, 255 - 5*i, 0));
-			if (resistance == 2)
+				break;
+			case 2:
 				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(0, 0, 255 - 5*i));
-			if (resistance == 5)
-				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(255 - 5*i, 0, 0));		
+				break;
+			case 3:
+				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(0, 255 - 5 * i, 255 - 5*i));
+				break;
+			case 4:
+				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(255 - 5 * i, 0, 255 - 5*i));
+				break;
+			case 5:
+				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(255 - 5*i, 0, 0));
+				break;
+			}
 		}
 		
 		Drawer.drawLine(g, x, y, x + width, y, Color.white);
@@ -51,7 +64,7 @@ public class Block extends BasicRectangle {
 		this.resistance = resistance;
 	}
 	
-	public void checkCollision() {
+	public int checkCollision() {
 		Ball ball = Main.getBall();
 		int rSpeed = Main.getRandom().nextInt(6) - 3;
 		if (rect.intersects(ball.getBounds())) {
@@ -70,7 +83,17 @@ public class Block extends BasicRectangle {
 			resistance--;
 			if (resistance <= 0) {
 				visible = false;
+				return value; 
 			}
 		}
+		return 0;
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
 	}
 }

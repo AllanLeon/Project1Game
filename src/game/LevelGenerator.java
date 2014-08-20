@@ -17,11 +17,12 @@ public class LevelGenerator {
 			lvl2();
 			break;
 		case 3:
+			lvl3();
 			break;
 		}
 	}
 	/**
-	 * Level: The Envelope
+	 * Level 1: The Envelope
 	 * @param g
 	 */
 	public static void lvl1() { 	
@@ -59,7 +60,7 @@ public class LevelGenerator {
 	}
 	
 	/**
-	 * Level: The Cocktail Glass
+	 * Level 2: The Cocktail Glass
 	 * @param g
 	 */
 	public static void lvl2() {
@@ -95,11 +96,44 @@ public class LevelGenerator {
 		blocks.add(new Block(492, 285, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
 		blocks.add(new Block(513, 305, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
 		blocks.add(new Block(534, 305, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
-
+		
+		//Straw
+		blocks.add(new Block(424, 305, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
+		blocks.add(new Block(440, 407, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
 	}
 	
 	/**
-	 * Level: The Randomness
+	 * Level 3: The Wi-Fi Signal
 	 * @param g
 	 */
+	public static void lvl3() {
+		List<Block> blocks = Main.getBlocks();
+		
+		int sum = 0;
+
+		//First signal
+		for (int i = 0; i < 350; i += 21) {
+			int j = 19 - Math.round(i/8);
+			blocks.add(new Block(220 + i, 280 + sum, BLOCK_WIDTH, BLOCK_HEIGHT, 1));
+			sum += j;
+		}
+		
+		//Second signal
+		for (int i = 0; i < 260; i += 21) {
+			int j = 19 - Math.round(i/6);
+			blocks.add(new Block(260 + i, 230 + sum, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+			sum += j;
+		}
+		
+		//Third signal
+		for (int i = 0; i < 150; i += 21) {
+			int j = (int) (19 - Math.round(i/3.3));
+			blocks.add(new Block(312 + i, 180 + sum, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
+			sum += j;
+		}
+		
+		blocks.add(new Block(364, 60, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
+		blocks.add(new Block(385, 60, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
+		blocks.add(new Block(406, 60, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
+	}
 }
