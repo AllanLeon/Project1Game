@@ -25,7 +25,7 @@ public class LevelGenerator {
 		}
 	}
 	/**
-	 * Level: The Envelope
+	 * Level 1: The Envelope
 	 * @param g
 	 */
 	public static void lvl1() { 	
@@ -63,7 +63,7 @@ public class LevelGenerator {
 	}
 	
 	/**
-	 * Level: The Cocktail Glass
+	 * Level 2: The Cocktail Glass
 	 * @param g
 	 */
 	public static void lvl2() {
@@ -99,14 +99,14 @@ public class LevelGenerator {
 		blocks.add(new Block(492, 285, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
 		blocks.add(new Block(513, 305, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
 		blocks.add(new Block(534, 305, BLOCK_WIDTH, BLOCK_HEIGHT, 2));
-
+		
 		//Straw
 		blocks.add(new Block(424, 305, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
 		blocks.add(new Block(440, 407, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
 	}
 	
 	/**
-	 * Level: The Wi-Fi Signal
+	 * Level 3: The Wi-Fi Signal
 	 * @param g
 	 */
 	public static void lvl3() {
