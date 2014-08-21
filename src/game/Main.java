@@ -132,13 +132,15 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		} else if (state == GameState.Ready) {
 			dbg.setColor(Color.WHITE);
 			dbg.setFont(new Font("EcuyerDAX", Font.BOLD, 24));
-			dbg.drawString("Press ENTER to play", WIDTH / 2 - 180, HEIGHT / 2);
+			dbg.drawString("Press ENTER to play", WIDTH / 2 - 130, HEIGHT / 2);
 		} else if (state == GameState.P1Win) {
 			dbg.setColor(Color.WHITE);
-			dbg.drawString("Player 1 WON!", WIDTH / 2 - 50, HEIGHT / 2);
+			dbg.setFont(new Font("EcuyerDAX", Font.BOLD, 24));
+			dbg.drawString("Player 1 WON!", WIDTH / 2 - 100, HEIGHT / 2);
 		} else if (state == GameState.P2Win) {
 			dbg.setColor(Color.WHITE);
-			dbg.drawString("Player 2 WON!", WIDTH / 2 - 50, HEIGHT / 2);
+			dbg.setFont(new Font("EcuyerDAX", Font.BOLD, 24));
+			dbg.drawString("Player 2 WON!", WIDTH / 2 - 100, HEIGHT / 2);
 		}
 		dbg.setFont(new Font("EcuyerDAX", Font.BOLD, 24));
 		dbg.setColor(new Color(255, 128, 0));
@@ -177,8 +179,10 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		ball.setCenterY(HEIGHT / 2);
 		if (state == GameState.P1Win) {
 			ball.setCenterX(player1.getX() + player1.getWidth() + ball.getRadius());
+			ball.setSpeedX(8);
 		} else if (state == GameState.P2Win) {
 			ball.setCenterX(player2.getX() - ball.getRadius());
+			ball.setSpeedX(-8);
 		}
 		LevelGenerator.generateLevel(1);
 	}

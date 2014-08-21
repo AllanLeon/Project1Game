@@ -22,6 +22,57 @@ public class BasicRectangle {
 		y += speedY;
 		rect.setBounds(x, y, width, height);
 	}
+	
+	public void checkCollision() {
+		if (ballIntersects()) {
+			System.out.println("Intersects");
+			Ball ball = Main.getBall();
+			if (ball.getCenterX() <= x || ball.getCenterX() >= x + width) {
+				ball.setSpeedX(ball.getSpeedX() * -1);
+				int newSpeedY = (5 * (ball.getCenterY() - y - (height / 2)) / (height / 2)) + ball.getSpeedY();
+				ball.setSpeedY(newSpeedY);
+			}
+			if (ball.getCenterY() < y || ball.getCenterY() > y + height) {
+				ball.setSpeedY(ball.getSpeedY() * -1);
+				int newSpeedX = (5 * (ball.getCenterX() - x - (width / 2)) / (width / 2)) + ball.getSpeedX();
+				ball.setSpeedX(newSpeedX);
+			}
+			ball.setColliding(false);
+		}
+	}
+	
+	public boolean ballIntersects() {
+		Ball ball = Main.getBall();
+		if (rect.intersects(Main.getBall().getBounds()) && !ball.isColliding()) {
+			int cX, cY;
+			
+			if (ball.getCenterX() < x) {
+				cX = x;
+			} else if (ball.getCenterX() > x + width) {
+				cX = x + width;
+			} else {
+				cX = ball.getCenterX();
+			}
+			if (ball.getCenterY() < y) {
+				cY = y;
+			} else if (ball.getCenterY() > y + height) {
+				cY = y + height;
+			} else {
+				cY = ball.getCenterY();
+			}
+			
+			if (calculateDistance(ball.getCenterX(), ball.getCenterY(), cX, cY) <= ball.getRadius()) {
+				ball.setColliding(true);
+				return true;
+			}
+		}
+		ball.setColliding(false);
+		return false;
+	}
+	
+	private double calculateDistance(int x1, int y1, int x2, int y2) {
+		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+	}
 
 	public int getX() {
 		return x;
