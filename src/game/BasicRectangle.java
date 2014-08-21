@@ -22,6 +22,35 @@ public class BasicRectangle {
 		y += speedY;
 		rect.setBounds(x, y, width, height);
 	}
+	
+	public boolean ballIntersects() {
+		Ball ball = Main.getBall();
+		int cX, cY;
+		
+		if (ball.getCenterX() < x) {
+			cX = x;
+		} else if (ball.getCenterX() > x + width) {
+			cX = x + width;
+		} else {
+			cX = ball.getCenterX();
+		}
+		if (ball.getCenterY() < y) {
+			cY = y;
+		} else if (ball.getCenterY() > y + height) {
+			cY = y + height;
+		} else {
+			cY = ball.getCenterY();
+		}
+		
+		if (calculateDistance(ball.getCenterX(), ball.getCenterY(), cX, cY) <= ball.getRadius()) {
+			return true;
+		}
+		return false;
+	}
+	
+	private double calculateDistance(int x1, int y1, int x2, int y2) {
+		return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+	}
 
 	public int getX() {
 		return x;

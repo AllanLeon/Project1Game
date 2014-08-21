@@ -135,9 +135,11 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 			dbg.drawString("Press ENTER to play", WIDTH / 2 - 180, HEIGHT / 2);
 		} else if (state == GameState.P1Win) {
 			dbg.setColor(Color.WHITE);
+			dbg.setFont(new Font("EcuyerDAX", Font.BOLD, 24));
 			dbg.drawString("Player 1 WON!", WIDTH / 2 - 50, HEIGHT / 2);
 		} else if (state == GameState.P2Win) {
 			dbg.setColor(Color.WHITE);
+			dbg.setFont(new Font("EcuyerDAX", Font.BOLD, 24));
 			dbg.drawString("Player 2 WON!", WIDTH / 2 - 50, HEIGHT / 2);
 		}
 		dbg.setFont(new Font("EcuyerDAX", Font.BOLD, 24));
