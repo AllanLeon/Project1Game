@@ -64,7 +64,18 @@ public class Block extends BasicRectangle {
 		this.resistance = resistance;
 	}
 
+	@Override
 	public void checkCollision() {
+		super.checkCollision();
+		if (ballIntersects()) {
+			resistance--;
+			if (resistance == 0) {
+				visible = false;
+				//setValue(this.value);
+			}
+		}
+		
+		/*
 		if (rect.intersects(Main.getBall().getBounds())) {
 			bounceBall();
 			
@@ -73,7 +84,7 @@ public class Block extends BasicRectangle {
 				visible = false;
 				//setValue(this.value);
 			}
-		}
+		}*/
 	}
 
 	public int getValue() {
@@ -83,7 +94,7 @@ public class Block extends BasicRectangle {
 	public void setValue(int value) {
 		this.value = value;
 	}
-	
+	/*
 	public void bounceBall() {
 		Ball ball = Main.getBall();
 		int rSpeed = Main.getRandom().nextInt(6) - 3;
@@ -98,5 +109,5 @@ public class Block extends BasicRectangle {
 			ball.setSpeedX(ball.getSpeedY() * -1 + rSpeed);
 			ball.setSpeedX(ball.getSpeedX() + rSpeed);
 		}
-	}
+	}*/
 }

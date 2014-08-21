@@ -8,15 +8,15 @@ import java.awt.Graphics;
 public class IndestructibleBlock extends Block {
 
 	public IndestructibleBlock(int x, int y, int width, int height) {
-		super(x, y, width, height, 0);
+		super(x, y, width, height, -1);
 	}
-	
+	/*
 	@Override
 	public void checkCollision() {
 		if (rect.intersects(Main.getBall().getBounds())) {
 			bounceBall();
 		}
-	}
+	}*/
 	
 	@Override
 	public void draw(Graphics g) {
