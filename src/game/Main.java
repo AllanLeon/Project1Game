@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -35,6 +36,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	private static final int HEIGHT = 500;
 
 	private BufferedImage doubleBuffer;
+	private Insets insets;
 	private int totalScore;
 	private static Ball ball;
 	private static Ship player1, player2;
@@ -72,12 +74,15 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	 */
 	private void initialize() {
 		setTitle("Game");
+		this.setBounds(0, 0, WIDTH, HEIGHT);
 		setSize(WIDTH, HEIGHT);
 		setResizable(false);
 		setFocusable(true);
 		addKeyListener(this);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+		insets = getInsets();
+		setSize(insets.left + WIDTH + insets.right, insets.top + HEIGHT + insets.bottom);
 		
 		doubleBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		blocks = new ArrayList<Block>();
@@ -156,7 +161,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		checkScore(totalScore, dbg);
 		dbg.drawString(player1.getScore() + "", 10, HEIGHT / 8);
 		dbg.drawString(player2.getScore() + "", WIDTH / 4 * 3, HEIGHT / 8);
-		getGraphics().drawImage(doubleBuffer, 0, 0, this);
+		getGraphics().drawImage(doubleBuffer, insets.left, insets.top, this);
 	}
 	
 	private void checkScore(int sc, Graphics g) {
@@ -169,14 +174,11 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	}
 
 	@Override
-	public void update(Graphics g) {
-	}
+	public void update(Graphics g) {}
 
 	
 	@Override
-	public void paint(Graphics g) {
-		g.drawImage(doubleBuffer, 0, 0, this);
-	}
+	public void paint(Graphics g) {}
 	
 	public void reset() {
 		doubleBuffer.getGraphics().clearRect(0, 0, WIDTH, HEIGHT);
