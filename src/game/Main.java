@@ -184,7 +184,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 			ball.setCenterX(player2.getX() - ball.getRadius());
 			ball.setSpeedX(-8);
 		}
-		LevelGenerator.generateLevel(1);
+		LevelGenerator.generateLevel(0);
 	}
 
 	/**
