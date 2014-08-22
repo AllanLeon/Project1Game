@@ -21,7 +21,8 @@ public class Block extends BasicRectangle {
 	@Override
 	public void update() {
 		super.update();
-		checkCollision();
+		//checkCollision();
+		Collider.checkBlockBallCollision(this);
 	}
 	
 	public void draw(Graphics g) {
@@ -97,6 +98,14 @@ public class Block extends BasicRectangle {
 	public void setValue(int value) {
 		this.value = value;
 	}
+	
+	public void reduceResistance() {
+		resistance--;
+		if (resistance == 0) {
+			visible = false;
+		}
+	}
+	
 	/*
 	public void bounceBall() {
 		Ball ball = Main.getBall();
