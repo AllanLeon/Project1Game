@@ -8,11 +8,13 @@ import java.awt.Graphics;
 
 public class Ship extends BasicRectangle {
 	
-	private int score;
+	private int points, score, id;
 	
-	public Ship(int x, int y, int width, int height) {
+	public Ship(int x, int y, int width, int height, int id) {
 		super(x, y, width, height);
+		this.points = 0;
 		this.score = 0;
+		this.id = id;
 	}
 	
 	public void draw(Graphics g) {
@@ -29,11 +31,12 @@ public class Ship extends BasicRectangle {
 		} else if (y <= 0) {
 			y = 0;
 		}
-		checkCollision();
+		Collider.checkShipBallCollision(this);
 	}
-	/*
+	
+	@Override
 	public void checkCollision() {
-		Ball ball =  Main.getBall();
+		/*Ball ball =  Main.getBall();
 		if ((ball.getSpeedX() > 0 && ball.getCenterX() + ball.getRadius() >= getX() - 10)
 				|| ball.getSpeedX() < 0 && ball.getCenterX() - ball.getRadius() <= x + width + 10) {
 			if (rect.intersects(ball.getBounds())) {
@@ -41,14 +44,27 @@ public class Ship extends BasicRectangle {
 				ball.setSpeedX(ball.getSpeedX() * -1);
 				ball.setSpeedY(newSpeedY);
 			}
-		}
-	}*/
+		}*/
+		Collider.checkShipBallCollision(this);
+	}
 
+	public int getPoints() {
+		return points;
+	}
+
+	public void increasePoints() {
+		points++;
+	}
+	
 	public int getScore() {
 		return score;
 	}
 
-	public void increaseScore() {
-		score++;
+	public void increaseScore(int score) {
+		this.score += score;
+	}
+	
+	public int getId() {
+		return id;
 	}
 }

@@ -13,6 +13,7 @@ public class Ball {
 	private int centerX, centerY, speedX, speedY, radius;
 	private Rectangle rect;
 	private boolean colliding;
+	private int lastPlayer;
 	
 	public Ball(int centerX, int centerY, int radius) {
 		this.centerX = centerX;
@@ -22,6 +23,7 @@ public class Ball {
 		this.radius = radius;
 		this.colliding = false;
 		this.rect = new Rectangle(centerX - radius, centerY - radius, radius * 2, radius * 2);
+		this.lastPlayer = 1;
 	}
 	
 	public void update() {
@@ -35,10 +37,10 @@ public class Ball {
 		}
 		if (centerX + radius >= Main.getWindowWidth()) {
 			Main.setState(GameState.P1Win);
-			Main.getPlayer1().increaseScore();
+			Main.getPlayer1().increasePoints();
 		} else if (centerX - radius <= 0) {
 			Main.setState(GameState.P2Win);
-			Main.getPlayer2().increaseScore();
+			Main.getPlayer2().increasePoints();
 		}
 	}
 	
@@ -107,6 +109,14 @@ public class Ball {
 	
 	public void setColliding(boolean colliding) {
 		this.colliding = colliding;
+	}
+	
+	public void setLastPlayer(int lastPlayer) {
+		this.lastPlayer = lastPlayer;
+	}
+	
+	public int getLastPlayer() {
+		return lastPlayer;
 	}
 	
 	public Rectangle getBounds() {

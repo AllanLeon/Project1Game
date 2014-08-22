@@ -25,7 +25,6 @@ public class BasicRectangle {
 	
 	public void checkCollision() {
 		if (ballIntersects()) {
-			System.out.println("Intersects");
 			Ball ball = Main.getBall();
 			if (ball.getCenterX() <= x || ball.getCenterX() >= x + width) {
 				ball.setSpeedX(ball.getSpeedX() * -1);

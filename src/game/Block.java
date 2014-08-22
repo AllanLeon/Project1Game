@@ -21,7 +21,8 @@ public class Block extends BasicRectangle {
 	@Override
 	public void update() {
 		super.update();
-		checkCollision();
+		//checkCollision();
+		Collider.checkBlockBallCollision(this);
 	}
 	
 	public void draw(Graphics g) {
@@ -32,16 +33,19 @@ public class Block extends BasicRectangle {
 				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(0, 255 - 5*i, 0));
 				break;
 			case 2:
-				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(0, 0, 255 - 5*i));
+				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(0, 255 - 5 * i, 255 - 5*i));
 				break;
 			case 3:
-				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(0, 255 - 5 * i, 255 - 5*i));
+				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(0, 0, 255 - 5*i));
 				break;
 			case 4:
 				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(255 - 5 * i, 0, 255 - 5*i));
 				break;
 			case 5:
 				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(255 - 5*i, 0, 0));
+				break;
+			default:
+				Drawer.drawLine(g, x, y + i, x + width, y + i, new Color(255 - 5*i, 255 - 5*i, 0, 50));
 				break;
 			}
 		}
@@ -94,6 +98,14 @@ public class Block extends BasicRectangle {
 	public void setValue(int value) {
 		this.value = value;
 	}
+	
+	public void reduceResistance() {
+		resistance--;
+		if (resistance == 0) {
+			visible = false;
+		}
+	}
+	
 	/*
 	public void bounceBall() {
 		Ball ball = Main.getBall();
