@@ -8,11 +8,13 @@ import java.awt.Graphics;
 
 public class Ship extends BasicRectangle {
 	
-	private int score;
+	private int points, score, id;
 	
-	public Ship(int x, int y, int width, int height) {
+	public Ship(int x, int y, int width, int height, int id) {
 		super(x, y, width, height);
+		this.points = 0;
 		this.score = 0;
+		this.id = id;
 	}
 	
 	public void draw(Graphics g) {
@@ -46,11 +48,23 @@ public class Ship extends BasicRectangle {
 		Collider.checkShipBallCollision(this);
 	}
 
+	public int getPoints() {
+		return points;
+	}
+
+	public void increasePoints() {
+		points++;
+	}
+	
 	public int getScore() {
 		return score;
 	}
 
-	public void increaseScore() {
-		score++;
+	public void increaseScore(int score) {
+		this.score += score;
+	}
+	
+	public int getId() {
+		return id;
 	}
 }

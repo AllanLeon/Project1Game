@@ -13,6 +13,7 @@ public class Collider {
 			if ((ball.getCenterY() <= ship.getY() && ball.getSpeedY() > 0) || (ball.getCenterY() >= ship.getY() + ship.getHeight() && ball.getSpeedY() < 0)) {
 				ball.setSpeedY(ball.getSpeedY() * -1);
 			}
+			ball.setLastPlayer(ship.getId());
 		}
 	}
 	

@@ -85,8 +85,8 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	
 	public void start() {
 		ball = new Ball(60, HEIGHT / 2, 10);
-		player1 = new Ship(10, HEIGHT / 2, 15, 100);
-		player2 = new Ship(WIDTH - 10 - 15, HEIGHT / 2, 15, 100);
+		player1 = new Ship(10, HEIGHT / 2, 15, 100, 1);
+		player2 = new Ship(WIDTH - 10 - 15, HEIGHT / 2, 15, 100, 2);
 		LevelGenerator.generateLevel(1);
 		state = GameState.Ready;
 		Timer timer = new Timer(1000/60, this);
@@ -101,8 +101,15 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 			if (blocks.get(i).isVisible()) {
 				blocks.get(i).update();
 			} else {
-				int blockDestroyed = blocks.get(i).getValue();
-				this.totalScore += blockDestroyed;
+				int blockValue = blocks.get(i).getValue();
+				switch (ball.getLastPlayer()) {
+				case 1:
+					player1.increaseScore(blockValue);
+					break;
+				case 2:
+					player2.increaseScore(blockValue);
+					break;
+				}
 				blocks.remove(i);
 			}
 		}
@@ -144,10 +151,11 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		}
 		dbg.setFont(new Font("EcuyerDAX", Font.BOLD, 24));
 		dbg.setColor(new Color(255, 128, 0));
-		dbg.drawString(player1.getScore() + " : " + player2.getScore(), WIDTH / 2 - 50, HEIGHT / 8);
+		dbg.drawString(player1.getPoints() + " : " + player2.getPoints(), WIDTH / 2 - 50, HEIGHT / 8);
 		dbg.setColor(new Color(0, 153, 76));
 		checkScore(totalScore, dbg);
-		dbg.drawString("Puntaje: " + totalScore, WIDTH - 250, HEIGHT / 8);
+		dbg.drawString(player1.getScore() + "", 10, HEIGHT / 8);
+		dbg.drawString(player2.getScore() + "", WIDTH / 4 * 3, HEIGHT / 8);
 		getGraphics().drawImage(doubleBuffer, 0, 0, this);
 	}
 	
@@ -180,9 +188,11 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		if (state == GameState.P1Win) {
 			ball.setCenterX(player1.getX() + player1.getWidth() + ball.getRadius());
 			ball.setSpeedX(8);
+			ball.setLastPlayer(1);
 		} else if (state == GameState.P2Win) {
 			ball.setCenterX(player2.getX() - ball.getRadius());
 			ball.setSpeedX(-8);
+			ball.setLastPlayer(2);
 		}
 		LevelGenerator.generateLevel(0);
 	}
