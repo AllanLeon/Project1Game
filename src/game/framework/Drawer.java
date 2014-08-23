@@ -42,12 +42,12 @@ public class Drawer {
 				putPixel(g, x, y);
 			}
 		} else {
-			d = 2*dx - dy;
-			deltaE = 2 * dx;
-			deltaNE = 2 * (dx-dy);
+			d = -2*dx + dy;
+			deltaE = -2 * dx;
+			deltaNE = 2 * (dy-dx);
 			while (y != y1) {
 				y += stepy;
-				if (d<0) {
+				if (d>0) {
 					d += deltaE;
 				} else {
 					x += stepx;
