@@ -64,6 +64,13 @@ public class Ship extends BasicRectangle {
 		this.score += score;
 	}
 	
+	public void reduceHeight() {
+		height -= 10;
+		if (height < 50) {
+			height = 50;
+		}
+	}
+	
 	public int getId() {
 		return id;
 	}

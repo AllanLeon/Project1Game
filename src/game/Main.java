@@ -37,7 +37,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 
 	private BufferedImage doubleBuffer;
 	private Insets insets;
-	private int totalScore;
+	private int totalScore, timeElapsed, level;
 	private static Ball ball;
 	private static Ship player1, player2;
 	private static GameState state;
@@ -74,16 +74,17 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	 */
 	private void initialize() {
 		setTitle("Game");
-		this.setBounds(0, 0, WIDTH, HEIGHT);
 		setSize(WIDTH, HEIGHT);
+		setVisible(true);
+		insets = getInsets();
+		setSize(insets.left + WIDTH + insets.right, insets.top + HEIGHT + insets.bottom);
 		setResizable(false);
 		setFocusable(true);
 		addKeyListener(this);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setVisible(true);
-		insets = getInsets();
-		setSize(insets.left + WIDTH + insets.right, insets.top + HEIGHT + insets.bottom);
 		
+		timeElapsed = 0;
+		level = 1;
 		doubleBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		blocks = new ArrayList<Block>();
 	}
@@ -92,7 +93,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		ball = new Ball(60, HEIGHT / 2, 10);
 		player1 = new Ship(10, HEIGHT / 2, 15, 100, 1);
 		player2 = new Ship(WIDTH - 10 - 15, HEIGHT / 2, 15, 100, 2);
-		LevelGenerator.generateLevel(1);
+		LevelGenerator.generateLevel(level);
 		state = GameState.Ready;
 		Timer timer = new Timer(1000/60, this);
 		timer.start();
@@ -118,15 +119,17 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 				blocks.remove(i);
 			}
 		}
+		timeElapsed++;
+		checkTime();
 	}
 
 	public void run() {
 		if(state == GameState.Running) {
             update();
-		} else if (state == GameState.Ready) {
+		} /*else if (state == GameState.Ready) {
 		} else {
 			reset();
-		}
+		}*/
 		paint();
 	}
 	
@@ -164,6 +167,13 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		getGraphics().drawImage(doubleBuffer, insets.left, insets.top, this);
 	}
 	
+	private void checkTime() {
+		if (timeElapsed % 1000 == 0) {
+			player1.reduceHeight();
+			player2.reduceHeight();
+		}
+	}
+	
 	private void checkScore(int sc, Graphics g) {
 		if  (sc >= 2000 & sc < 5000) {
 			g.setColor(new Color(255, 255, 51));
@@ -196,7 +206,9 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 			ball.setSpeedX(-8);
 			ball.setLastPlayer(2);
 		}
-		LevelGenerator.generateLevel(0);
+		timeElapsed = 0;
+		level++;
+		LevelGenerator.generateLevel(level);
 	}
 
 	/**
@@ -221,6 +233,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 			if (state == GameState.Ready) {
 				state = GameState.Running;
 			} else if (state != GameState.Running) {
+				reset();
 				state = GameState.Ready;
 			}
 			break;

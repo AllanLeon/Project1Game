@@ -11,7 +11,7 @@ public class LevelGenerator {
 		int chosenLvl = lvl;
 		switch (chosenLvl) {
 		case 0:
-			randomLvl();
+			matrixLvl();
 			break;
 		case 1:
 			lvl1();
@@ -21,6 +21,9 @@ public class LevelGenerator {
 			break;
 		case 3:
 			lvl3();
+			break;
+		default:
+			randomLvl();
 			break;
 		}
 	}
@@ -135,27 +138,14 @@ public class LevelGenerator {
 			sum += j;
 		}
 		
-		/*blocks.add(new Block(364, 60, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
+		blocks.add(new Block(364, 60, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
 		blocks.add(new Block(385, 60, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
-		blocks.add(new Block(406, 60, BLOCK_WIDTH, BLOCK_HEIGHT, 5));*/
-		blocks.add(new IndestructibleBlock(364, 60, BLOCK_WIDTH, BLOCK_HEIGHT));
-		blocks.add(new IndestructibleBlock(385, 60, BLOCK_WIDTH, BLOCK_HEIGHT));
-		blocks.add(new IndestructibleBlock(406, 60, BLOCK_WIDTH, BLOCK_HEIGHT));
+		blocks.add(new Block(406, 60, BLOCK_WIDTH, BLOCK_HEIGHT, 5));
 	}
 	
 	public static void randomLvl() {
 		List<Block> blocks = Main.getBlocks();
 		int[][] res = new int[8][20];
-		/*int[][] res = {
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
-		};*/
 		int x = 250;
 		int y = 50;
 		for (int j = 0; j < 8; j++) {
@@ -163,6 +153,31 @@ public class LevelGenerator {
 				res[j][i] = Main.getRandom().nextInt(20) - 15;
 			}
 		}
+		for (int j = 0; j < 8; j++) {
+			for (int i = 0; i < 20; i++) {
+				if (res[j][i] == 0) {
+					blocks.add(new IndestructibleBlock(x + BLOCK_WIDTH*i, y + BLOCK_HEIGHT*(7-j), BLOCK_WIDTH, BLOCK_HEIGHT));
+				} else if (res[j][i] > 0) {
+					blocks.add(new Block(x + BLOCK_WIDTH*i, y + BLOCK_HEIGHT*(7-j), BLOCK_WIDTH, BLOCK_HEIGHT, res[j][i]));
+				}
+			}
+		}
+	}
+	
+	public static void matrixLvl() {
+		List<Block> blocks = Main.getBlocks();
+		int[][] res = {
+				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
+		};
+		int x = 250;
+		int y = 50;
 		for (int j = 0; j < 8; j++) {
 			for (int i = 0; i < 20; i++) {
 				if (res[j][i] == 0) {
