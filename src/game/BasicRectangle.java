@@ -23,23 +23,6 @@ public class BasicRectangle {
 		rect.setBounds(x, y, width, height);
 	}
 	
-	public void checkCollision() {
-		if (ballIntersects()) {
-			Ball ball = Main.getBall();
-			if (ball.getCenterX() <= x || ball.getCenterX() >= x + width) {
-				ball.setSpeedX(ball.getSpeedX() * -1);
-				int newSpeedY = (5 * (ball.getCenterY() - y - (height / 2)) / (height / 2)) + ball.getSpeedY();
-				ball.setSpeedY(newSpeedY);
-			}
-			if (ball.getCenterY() < y || ball.getCenterY() > y + height) {
-				ball.setSpeedY(ball.getSpeedY() * -1);
-				int newSpeedX = (5 * (ball.getCenterX() - x - (width / 2)) / (width / 2)) + ball.getSpeedX();
-				ball.setSpeedX(newSpeedX);
-			}
-			ball.setColliding(false);
-		}
-	}
-	
 	public boolean ballIntersects() {
 		Ball ball = Main.getBall();
 		if (rect.intersects(Main.getBall().getBounds()) && !ball.isColliding()) {

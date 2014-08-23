@@ -1,5 +1,7 @@
 package game;
 
+import game.data.Data;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -12,14 +14,12 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
 /**
  * Main window of the game
- * @author Allan Leon
  */
 public class Main extends JFrame implements KeyListener, ActionListener {
 	
@@ -35,14 +35,14 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	private static final int WIDTH = 800;
 	private static final int HEIGHT = 500;
 
-	private BufferedImage doubleBuffer;
-	private Insets insets;
-	private int totalScore, timeElapsed, level;
 	private static Ball ball;
 	private static Ship player1, player2;
 	private static GameState state;
 	private static List<Block> blocks;
-	private static Random random;
+	
+	private BufferedImage doubleBuffer;
+	private Insets insets;
+	private int timeElapsed, level;
 
 	/**
 	 * Launch the application.
@@ -51,9 +51,8 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Main frame = new Main();
-					frame.start();
-					frame.setVisible(true);
+					Main game = new Main();
+					game.start();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -65,7 +64,6 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	 * Create the frame.
 	 */
 	public Main() {
-		random = new Random();
 		initialize();
 	}
 	
@@ -78,21 +76,22 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		setVisible(true);
 		insets = getInsets();
 		setSize(insets.left + WIDTH + insets.right, insets.top + HEIGHT + insets.bottom);
+		
 		setResizable(false);
 		setFocusable(true);
 		addKeyListener(this);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		timeElapsed = 0;
-		level = 1;
+		level = Data.STARTING_LEVEL;
 		doubleBuffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		blocks = new ArrayList<Block>();
 	}
 	
 	public void start() {
-		ball = new Ball(60, HEIGHT / 2, 10);
-		player1 = new Ship(10, HEIGHT / 2, 15, 100, 1);
-		player2 = new Ship(WIDTH - 10 - 15, HEIGHT / 2, 15, 100, 2);
+		ball = new Ball(Data.SHIP_STARTING_X + Data.SHIP_WIDTH, HEIGHT / 2, Data.BALL_RADIUS);
+		player1 = new Ship(Data.SHIP_STARTING_X, HEIGHT / 2, Data.SHIP_WIDTH, Data.SHIP_HEIGHT, 1);
+		player2 = new Ship(WIDTH - Data.SHIP_STARTING_X - Data.SHIP_WIDTH, HEIGHT / 2, Data.SHIP_WIDTH, Data.SHIP_HEIGHT, 2);
 		LevelGenerator.generateLevel(level);
 		state = GameState.Ready;
 		Timer timer = new Timer(1000/60, this);
@@ -126,10 +125,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	public void run() {
 		if(state == GameState.Running) {
             update();
-		} /*else if (state == GameState.Ready) {
-		} else {
-			reset();
-		}*/
+		}
 		paint();
 	}
 	
@@ -157,29 +153,24 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 			dbg.setFont(new Font("EcuyerDAX", Font.BOLD, 24));
 			dbg.drawString("Player 2 WON!", WIDTH / 2 - 100, HEIGHT / 2);
 		}
+		drawScores(dbg);
+		getGraphics().drawImage(doubleBuffer, insets.left, insets.top, this);
+	}
+	
+	private void drawScores(Graphics dbg) {
+		String points = player1.getPoints() + " : " + player2.getPoints();
 		dbg.setFont(new Font("EcuyerDAX", Font.BOLD, 24));
 		dbg.setColor(new Color(255, 128, 0));
-		dbg.drawString(player1.getPoints() + " : " + player2.getPoints(), WIDTH / 2 - 50, HEIGHT / 8);
+		dbg.drawString(points, WIDTH / 2 - dbg.getFontMetrics().stringWidth(points) / 2, 30);
 		dbg.setColor(new Color(0, 153, 76));
-		checkScore(totalScore, dbg);
-		dbg.drawString(player1.getScore() + "", 10, HEIGHT / 8);
-		dbg.drawString(player2.getScore() + "", WIDTH / 4 * 3, HEIGHT / 8);
-		getGraphics().drawImage(doubleBuffer, insets.left, insets.top, this);
+		dbg.drawString(player1.getScore() + "", 10, 30);
+		dbg.drawString(player2.getScore() + "", WIDTH - 10 - dbg.getFontMetrics().stringWidth("" + player2.getScore()), 30);
 	}
 	
 	private void checkTime() {
 		if (timeElapsed % 1000 == 0) {
 			player1.reduceHeight();
 			player2.reduceHeight();
-		}
-	}
-	
-	private void checkScore(int sc, Graphics g) {
-		if  (sc >= 2000 & sc < 5000) {
-			g.setColor(new Color(255, 255, 51));
-		}
-		if  (sc >= 5000) {
-			g.setColor(new Color(51, 255, 51));
 		}
 	}
 
@@ -192,18 +183,20 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	
 	public void reset() {
 		doubleBuffer.getGraphics().clearRect(0, 0, WIDTH, HEIGHT);
+		blocks.clear();
+		player1.setHeight(Data.SHIP_HEIGHT);
+		player2.setHeight(Data.SHIP_HEIGHT);
 		player1.setY(HEIGHT / 2 - player1.getHeight() / 2);
 		player2.setY(HEIGHT / 2 - player2.getHeight() / 2);
-		blocks.clear();
 		ball.setSpeedY(0);
 		ball.setCenterY(HEIGHT / 2);
 		if (state == GameState.P1Win) {
 			ball.setCenterX(player1.getX() + player1.getWidth() + ball.getRadius());
-			ball.setSpeedX(8);
+			ball.setSpeedX(Data.BALL_SPEED_X);
 			ball.setLastPlayer(1);
 		} else if (state == GameState.P2Win) {
 			ball.setCenterX(player2.getX() - ball.getRadius());
-			ball.setSpeedX(-8);
+			ball.setSpeedX(-Data.BALL_SPEED_X);
 			ball.setLastPlayer(2);
 		}
 		timeElapsed = 0;
@@ -218,16 +211,16 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	public void keyPressed(KeyEvent ke) {
 		switch (ke.getKeyCode()) {
 		case KeyEvent.VK_UP:
-			player2.setSpeedY(8);
+			player2.setSpeedY(Data.SHIP_SPEED_Y);
 			break;
 		case KeyEvent.VK_DOWN:
-			player2.setSpeedY(-8);
+			player2.setSpeedY(-Data.SHIP_SPEED_Y);
 			break;
 		case KeyEvent.VK_W:
-			player1.setSpeedY(8);
+			player1.setSpeedY(Data.SHIP_SPEED_Y);
 			break;
 		case KeyEvent.VK_S:
-			player1.setSpeedY(-8);
+			player1.setSpeedY(-Data.SHIP_SPEED_Y);
 			break;
 		case KeyEvent.VK_ENTER:
 			if (state == GameState.Ready) {
@@ -262,8 +255,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent ke) {	
-	}
+	public void keyTyped(KeyEvent ke) {	}
 	
 	public static int getWindowWidth() {
 		return WIDTH;
@@ -275,10 +267,6 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	
 	public static Ball getBall() {
 		return ball;
-	}
-	
-	public static Random getRandom() {
-		return random;
 	}
 	
 	public static List<Block> getBlocks() {
