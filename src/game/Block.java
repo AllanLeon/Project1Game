@@ -21,7 +21,6 @@ public class Block extends BasicRectangle {
 	@Override
 	public void update() {
 		super.update();
-		//checkCollision();
 		Collider.checkBlockBallCollision(this);
 	}
 	
@@ -68,29 +67,6 @@ public class Block extends BasicRectangle {
 		this.resistance = resistance;
 	}
 
-	@Override
-	public void checkCollision() {
-		super.checkCollision();
-		if (ballIntersects()) {
-			resistance--;
-			if (resistance == 0) {
-				visible = false;
-				//setValue(this.value);
-			}
-		}
-		
-		/*
-		if (rect.intersects(Main.getBall().getBounds())) {
-			bounceBall();
-			
-			resistance--;
-			if (resistance <= 0) {
-				visible = false;
-				//setValue(this.value);
-			}
-		}*/
-	}
-
 	public int getValue() {
 		return value;
 	}
@@ -105,21 +81,4 @@ public class Block extends BasicRectangle {
 			visible = false;
 		}
 	}
-	
-	/*
-	public void bounceBall() {
-		Ball ball = Main.getBall();
-		int rSpeed = Main.getRandom().nextInt(6) - 3;
-		if ((ball.getSpeedX() > 0 && ball.getCenterX() <= x) ||
-				(ball.getSpeedX() < 0 && ball.getCenterX() >= x + width)) {
-			ball.setSpeedX(ball.getSpeedX() * -1 + rSpeed);
-			ball.setSpeedY(ball.getSpeedY() + rSpeed);
-			
-		}
-		if ((ball.getSpeedY() > 0 && ball.getCenterY() <= y) ||
-				(ball.getSpeedY() < 0 && ball.getCenterY() >= y + height)) {
-			ball.setSpeedX(ball.getSpeedY() * -1 + rSpeed);
-			ball.setSpeedX(ball.getSpeedX() + rSpeed);
-		}
-	}*/
 }

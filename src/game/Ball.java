@@ -1,12 +1,12 @@
 package game;
 
 import game.Main.GameState;
+import game.data.Data;
 import game.framework.Drawer;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-
 
 public class Ball {
 
@@ -18,7 +18,7 @@ public class Ball {
 	public Ball(int centerX, int centerY, int radius) {
 		this.centerX = centerX;
 		this.centerY = centerY;
-		this.speedX = 8;
+		this.speedX = Data.BALL_SPEED_X + 3;
 		this.speedY = 0;
 		this.radius = radius;
 		this.colliding = false;
@@ -84,16 +84,7 @@ public class Ball {
 	}
 
 	public void setSpeedX(int speedX) {
-		if (speedX == 0) {
-			speedX = 1;
-		}
 		this.speedX = speedX;
-		if (Math.abs(this.speedX) < 5) {
-			this.speedX = this.speedX / Math.abs(this.speedX) * 5;
-		}
-		if (Math.abs(this.speedX) > 10) {
-			this.speedX = this.speedX / Math.abs(this.speedX) * 10;
-		}
 	}
 
 	public void setSpeedY(int speedY) {
