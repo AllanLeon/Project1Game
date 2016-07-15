@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,7 +43,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	private static List<Block> blocks;
 	
 	private BufferedImage doubleBuffer;
-	private Image logo;
+	private BufferedImage logo;
 	private Insets insets;
 	private int timeElapsed, level;
 
@@ -55,8 +54,8 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					new Main();
-					//game.start();
+					Main game = new Main();
+					game.start();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -98,13 +97,14 @@ public class Main extends JFrame implements KeyListener, ActionListener {
         try {
 			logo = ImageIO.read(Main.class.getResourceAsStream("SUPER-logo.jpg"));
 			getGraphics().drawImage(logo, insets.left, insets.top, this);
+			logo.flush();
+			logo = null;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void start() {
-		logo.flush();
 		ball = new Ball(Data.SHIP_STARTING_X + Data.SHIP_WIDTH, HEIGHT / 2, Data.BALL_RADIUS);
 		player1 = new Ship(Data.SHIP_STARTING_X, HEIGHT / 2, Data.SHIP_WIDTH, Data.SHIP_HEIGHT, 1);
 		player2 = new Ship(WIDTH - Data.SHIP_STARTING_X - Data.SHIP_WIDTH, HEIGHT / 2, Data.SHIP_WIDTH, Data.SHIP_HEIGHT, 2);
@@ -147,8 +147,7 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 	
 	private void paint() {
 		Graphics dbg = doubleBuffer.getGraphics();
-		dbg.setColor(Color.BLACK);
-		dbg.fillRect(0, 0, WIDTH, HEIGHT);
+		dbg.clearRect(0, 0, WIDTH, HEIGHT);
 
 		if (state == GameState.Running) {
 			for(int i = 0; i < blocks.size(); i++) {
@@ -244,6 +243,8 @@ public class Main extends JFrame implements KeyListener, ActionListener {
 				state = GameState.Running;
 			} else if (state == GameState.Starting) {
 				start();
+				//Timer timer = new Timer(1000/60, this);
+				//timer.start();
 			} else if (state != GameState.Running) {
 				reset();
 				state = GameState.Ready;
